@@ -1,6 +1,15 @@
-use std::net::TcpStream;
+use app::App;
 
-fn main() {
-    let stream = TcpStream::connect("127.0.0.1:8080");
-    println!("Hello, world!");
+pub mod app;
+
+pub struct Server;
+
+fn main() -> Result<(), anyhow::Error> {
+    let mut terminal = ratatui::init();
+    terminal.clear()?;
+
+    let app_result = App::run(terminal);
+    ratatui::restore();
+
+    app_result
 }
