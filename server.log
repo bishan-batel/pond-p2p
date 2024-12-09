@@ -2,4 +2,224 @@ Starting server
 registering event source with poller: token=Token(0), interests=READABLE
 registering event source with poller: token=Token(1), interests=READABLE
 Stream
-Sending Message: ChatMessage { user: "Bruh", contents: "Test Message" }
+Sending Message: ChatMessage { user: "Client", contents: "Default Message" }
+Received message ChatMessage {
+    user: "Client",
+    contents: "Default Message",
+}
+Stream
+Sending Message: ChatMessage { user: "Client", contents: "Default Message" }
+Received message ChatMessage {
+    user: "Client",
+    contents: "Default Message",
+}
+Stream
+Sending Message: ChatMessage { user: "Client", contents: "Default Message" }
+Received message ChatMessage {
+    user: "Client",
+    contents: "Default Message",
+}
+Stream
+Sending Message: ChatMessage { user: "Client", contents: "Default Message" }
+Received message ChatMessage {
+    user: "Client",
+    contents: "Default Message",
+}
+Stream
+Sending Message: ChatMessage { user: "Client", contents: "Default Message" }
+Received message ChatMessage {
+    user: "Client",
+    contents: "Default Message",
+}
+Stream
+Sending Message: ChatMessage { user: "Client", contents: "Default Message" }
+Received message ChatMessage {
+    user: "Client",
+    contents: "Default Message",
+}
+Stream
+Sending Message: ChatMessage { user: "Client", contents: "Default Message" }
+Received message ChatMessage {
+    user: "Client",
+    contents: "Default Message",
+}
+Stream
+Sending Message: ChatMessage { user: "Client", contents: "penis music" }
+Received message ChatMessage {
+    user: "Client",
+    contents: "penis music",
+}
+Stream
+Sending Message: ChatMessage { user: "Client", contents: "penis music" }
+Received message ChatMessage {
+    user: "Client",
+    contents: "penis music",
+}
+Stream
+Sending Message: ChatMessage { user: "Client", contents: "penis music" }
+Received message ChatMessage {
+    user: "Client",
+    contents: "penis music",
+}
+Stream
+Sending Message: ChatMessage { user: "Client", contents: "penis music" }
+Received message ChatMessage {
+    user: "Client",
+    contents: "penis music",
+}
+Stream
+Sending Message: ChatMessage { user: "Client", contents: "penis music" }
+Received message ChatMessage {
+    user: "Client",
+    contents: "penis music",
+}
+Stream
+Sending Message: ChatMessage { user: "Client", contents: "penis music" }
+Received message ChatMessage {
+    user: "Client",
+    contents: "penis music",
+}
+Stream
+Sending Message: ChatMessage { user: "Client", contents: "penis music" }
+Received message ChatMessage {
+    user: "Client",
+    contents: "penis music",
+}
+Stream
+Sending Message: ChatMessage { user: "Client", contents: "penis music" }
+Received message ChatMessage {
+    user: "Client",
+    contents: "penis music",
+}
+Stream
+Sending Message: ChatMessage { user: "Client", contents: "penis music" }
+Received message ChatMessage {
+    user: "Client",
+    contents: "penis music",
+}
+Stream
+Sending Message: ChatMessage { user: "Client", contents: "penis music" }
+Received message ChatMessage {
+    user: "Client",
+    contents: "penis music",
+}
+Stream
+Sending Message: ChatMessage { user: "Client", contents: "penis music" }
+Received message ChatMessage {
+    user: "Client",
+    contents: "penis music",
+}
+Stream
+Sending Message: ChatMessage { user: "Client", contents: "penis music" }
+Received message ChatMessage {
+    user: "Client",
+    contents: "penis music",
+}
+Stream
+Sending Message: ChatMessage { user: "Client", contents: "penis music" }
+Received message ChatMessage {
+    user: "Client",
+    contents: "penis music",
+}
+Stream
+Sending Message: ChatMessage { user: "Client", contents: "penis music" }
+Received message ChatMessage {
+    user: "Client",
+    contents: "penis music",
+}
+Stream
+Sending Message: ChatMessage { user: "Client", contents: "penis music" }
+Received message ChatMessage {
+    user: "Client",
+    contents: "penis music",
+}
+Stream
+Sending Message: ChatMessage { user: "Client", contents: "penis music" }
+Received message ChatMessage {
+    user: "Client",
+    contents: "penis music",
+}
+Stream
+Sending Message: ChatMessage { user: "Client", contents: "penis music" }
+Received message ChatMessage {
+    user: "Client",
+    contents: "penis music",
+}
+Stream
+Sending Message: ChatMessage { user: "Client", contents: "penis music" }
+Received message ChatMessage {
+    user: "Client",
+    contents: "penis music",
+}
+Stream
+Sending Message: ChatMessage { user: "Client", contents: "penis music" }
+Received message ChatMessage {
+    user: "Client",
+    contents: "penis music",
+}
+Stream
+Sending Message: ChatMessage { user: "Client", contents: "penis music" }
+Received message ChatMessage {
+    user: "Client",
+    contents: "penis music",
+}
+Stream
+Sending Message: ChatMessage { user: "Client", contents: "Default Message" }
+Received message ChatMessage {
+    user: "Client",
+    contents: "Default Message",
+}
+Stream
+Sending Message: ChatMessage { user: "Client", contents: "penis music" }
+Received message ChatMessage {
+    user: "Client",
+    contents: "penis music",
+}
+Stream
+Sending Message: ChatMessage { user: "Client", contents: "penis music" }
+Received message ChatMessage {
+    user: "Client",
+    contents: "penis music",
+}
+Stream
+Sending Message: ChatMessage { user: "Client", contents: "penis music" }
+Received message ChatMessage {
+    user: "Client",
+    contents: "penis music",
+}
+Stream
+Sending Message: ChatMessage { user: "Client", contents: "penis music" }
+Received message ChatMessage {
+    user: "Client",
+    contents: "penis music",
+}
+Stream
+Sending Message: ChatMessage { user: "Client", contents: "penis music" }
+Received message ChatMessage {
+    user: "Client",
+    contents: "penis music",
+}
+Stream
+Sending Message: ChatMessage { user: "Client", contents: "penis musicsdf" }
+Received message ChatMessage {
+    user: "Client",
+    contents: "penis musicsdf",
+}
+Stream
+Sending Message: ChatMessage { user: "Client", contents: "penis musicsdf" }
+Received message ChatMessage {
+    user: "Client",
+    contents: "penis musicsdf",
+}
+Stream
+Sending Message: ChatMessage { user: "Client", contents: "penis musicsdf" }
+Received message ChatMessage {
+    user: "Client",
+    contents: "penis musicsdf",
+}
+Stream
+Sending Message: ChatMessage { user: "Client", contents: "penis musicsdfexit" }
+Received message ChatMessage {
+    user: "Client",
+    contents: "penis musicsdfexit",
+}

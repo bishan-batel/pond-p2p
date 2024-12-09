@@ -19,6 +19,9 @@ struct Args {
     /// Specifies a specific address to bind to
     #[arg(short, long, default_value = "127.0.0.1:8080")]
     port: String,
+
+    #[arg(short, long)]
+    message: Option<String>,
 }
 
 fn main() -> eyre::Result<()> {
@@ -37,6 +40,6 @@ fn main() -> eyre::Result<()> {
     if args.server {
         Server::run(args.port)
     } else {
-        Client::run(args.port)
+        Client::run(args.port, args.message.unwrap_or("Default Message".into()))
     }
 }

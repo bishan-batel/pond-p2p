@@ -8,12 +8,12 @@ use crate::net::message::ChatMessage;
 pub struct Client;
 
 impl Client {
-    pub fn run(address: impl ToSocketAddrs) -> eyre::Result<()> {
+    pub fn run(address: impl ToSocketAddrs, contents: String) -> eyre::Result<()> {
         let mut stream = BufWriter::new(TcpStream::connect(address)?);
 
         let msg = ChatMessage {
-            contents: "Test Message".into(),
-            user: "Bruh".into(),
+            contents,
+            user: "Client".into(),
         };
 
         serde_json::to_writer(&mut stream, &msg)?;

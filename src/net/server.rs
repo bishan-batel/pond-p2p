@@ -4,9 +4,11 @@ use std::{
     net::{TcpListener, ToSocketAddrs},
     sync::mpsc::{self, Receiver},
     thread::{self, JoinHandle},
+    time::Duration,
 };
 
 use bytes::BytesMut;
+use color_eyre::owo_colors::OwoColorize;
 use crossterm::event::{self, Event, KeyCode, KeyEvent, KeyEventKind};
 use log::{error, info};
 use ratatui::{
@@ -66,9 +68,19 @@ impl Server {
         let mut messages = vec![];
 
         while !self.handle.is_finished() {
-            if let Ok(msg) = self.rx.try_recv() {
-                info!("Received message {:#?}", msg);
-                messages.push(msg);
+            match self.rx.try_recv() {
+                Ok(msg) => {
+                    info!("Received message {:#?}", msg);
+                    messages.push(msg);
+                }
+                Err(err) => match err {
+                    mpsc::TryRecvError::Empty => {}
+                    mpsc::TryRecvError::Disconnected => {
+                        error!("Thread disconnected!");
+
+                        return Err(err.into());
+                    }
+                },
             }
 
             if let Err(err) = terminal.draw(|frame| {
@@ -92,6 +104,10 @@ impl Server {
                 frame.render_widget(list, frame.area());
             }) {
                 error!("Error rendering frame: {}", err);
+            }
+
+            if !event::poll(Duration::from_secs(0))? {
+                continue;
             }
 
             match event::read()? {
