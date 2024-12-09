@@ -1,0 +1,5 @@
+Starting server
+registering event source with poller: token=Token(0), interests=READABLE
+registering event source with poller: token=Token(1), interests=READABLE
+Stream
+Sending Message: ChatMessage { user: "Bruh", contents: "Test Message" }

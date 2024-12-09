@@ -1,8 +1,0 @@
-syntax = "proto3";
-
-package pond.message;
-
-message Message {
-  string contents = 1;
-  string user = 2;
-}

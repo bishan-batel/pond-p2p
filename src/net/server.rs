@@ -1,35 +1,119 @@
-use crossterm::event::{self, Event, KeyCode, KeyEvent};
-use ratatui::{prelude::Backend, Terminal};
+use core::str;
+use std::{
+    io::{self, BufRead, BufReader, Read},
+    net::{TcpListener, ToSocketAddrs},
+    sync::mpsc::{self, Receiver},
+    thread::{self, JoinHandle},
+};
+
+use bytes::BytesMut;
+use crossterm::event::{self, Event, KeyCode, KeyEvent, KeyEventKind};
+use log::{error, info};
+use ratatui::{
+    prelude::*,
+    widgets::{Block, BorderType, Borders, List},
+    DefaultTerminal,
+};
+
+use super::message::ChatMessage;
 
 #[derive(Debug)]
-pub struct Server {}
+pub struct Server {
+    rx: Receiver<ChatMessage>,
+    handle: JoinHandle<eyre::Result<()>>,
+}
 
 impl Server {
-    fn init() -> Self {
-        Self {}
+    fn init(address: impl ToSocketAddrs) -> Result<Self, io::Error> {
+        let stream = TcpListener::bind(address)?;
+
+        let (tx, rx) = mpsc::channel();
+
+        info!("Starting server");
+
+        let handle = thread::spawn(move || {
+            for conn in stream.incoming() {
+                info!("Stream");
+
+                let stream = match conn {
+                    Ok(stream) => stream,
+                    Err(err) => {
+                        error!("Server {:#?}", err);
+                        return Err(err.into());
+                    }
+                };
+
+                let reader = BufReader::new(stream);
+
+                match serde_json::from_reader(reader) {
+                    Ok(msg) => {
+                        info!("Sending Message: {:?}", msg);
+                        tx.send(msg)?
+                    }
+                    Err(err) => {
+                        error!("Decode Error: {}", err);
+                        return Err(err)?;
+                    }
+                }
+            }
+            Ok(())
+        });
+
+        Ok(Self { handle, rx })
     }
 
-    pub fn main_loop<B: Backend>(
-        &mut self,
-        terminal: &mut Terminal<B>,
-    ) -> Result<(), anyhow::Error> {
-        todo!("bruh");
-        panic!("huh");
-        loop {
-            let Event::Key(key) = event::read()? else {
-                continue;
-            };
+    pub fn main_loop(self, mut terminal: DefaultTerminal) -> eyre::Result<()> {
+        let mut messages = vec![];
 
-            match key.code {
-                KeyCode::Char('q') => return Ok(()),
+        while !self.handle.is_finished() {
+            if let Ok(msg) = self.rx.try_recv() {
+                info!("Received message {:#?}", msg);
+                messages.push(msg);
+            }
+
+            if let Err(err) = terminal.draw(|frame| {
+                // render frame
+
+                let block = Block::new()
+                    .title("Server")
+                    .border_type(BorderType::Rounded)
+                    .border_style(Style::default().red())
+                    .borders(Borders::all());
+
+                let list = List::new(
+                    messages
+                        .iter()
+                        .map(|x| format!("{}: {}", x.user, x.contents)),
+                )
+                .repeat_highlight_symbol(true)
+                .highlight_symbol(">>")
+                .block(block);
+
+                frame.render_widget(list, frame.area());
+            }) {
+                error!("Error rendering frame: {}", err);
+            }
+
+            match event::read()? {
+                Event::Key(key) => match key {
+                    KeyEvent {
+                        kind: KeyEventKind::Press,
+                        code: KeyCode::Char('q'),
+                        ..
+                    } => return Ok(()),
+                    _ => {}
+                },
                 _ => {}
             }
         }
+
+        Ok(())
     }
 
-    pub fn run() -> Result<(), anyhow::Error> {
+    pub fn run(address: impl ToSocketAddrs) -> eyre::Result<()> {
         let mut terminal = ratatui::init();
-        let result = Self::init().main_loop(&mut terminal);
+        terminal.clear()?;
+        let result = Self::init(address)?.main_loop(terminal);
         ratatui::restore();
         result
     }
