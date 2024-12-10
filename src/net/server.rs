@@ -1,149 +1,105 @@
 use core::str;
-use std::{
-    io::{self, BufRead, BufReader, Read},
-    net::{TcpListener, ToSocketAddrs},
-    sync::mpsc::{self, Receiver},
-    thread::{self, JoinHandle},
-    time::Duration,
-};
+use std::{collections::HashMap, sync::Arc};
 
-use bytes::BytesMut;
-use color_eyre::owo_colors::OwoColorize;
-use crossterm::event::{self, Event, KeyCode, KeyEvent, KeyEventKind};
+use bytes::Bytes;
+use eyre::OptionExt;
+use futures::{SinkExt, StreamExt};
 use log::{error, info};
-use ratatui::{
-    prelude::*,
-    widgets::{Block, BorderType, Borders, List},
-    DefaultTerminal,
+use serde::{Deserialize, Serialize};
+use tokio::{
+    net::{TcpListener, TcpStream},
+    sync::broadcast,
+};
+use tokio_util::codec::{BytesCodec, FramedRead, FramedWrite, LinesCodec};
+
+use super::{
+    protocol::{self, RegisterRequest, ServerRequest},
+    user::{User, Username},
 };
 
-use super::message::ChatMessage;
+pub type Request = protocol::ServerRequest;
+pub type Response = protocol::ServerResponse;
+pub type ResponseError = protocol::ServerResponseError;
 
-#[derive(Debug)]
 pub struct Server {
-    rx: Receiver<ChatMessage>,
-    handle: JoinHandle<eyre::Result<()>>,
+    root_tcp: TcpListener,
 }
 
+#[derive(Debug, Clone, Hash)]
+pub enum BroadcastMessage {
+    Message { user: Username, contents: String },
+}
+
+#[derive(Debug, Clone, Hash, Serialize, Deserialize)]
+pub enum ClientMessage {}
+
 impl Server {
-    fn init(address: impl ToSocketAddrs) -> Result<Self, io::Error> {
-        let stream = TcpListener::bind(address)?;
+    /// # Errors
+    ///
+    /// This function will return an error if it was unable to listen on the address
+    pub async fn bind(addr: impl tokio::net::ToSocketAddrs) -> eyre::Result<Self> {
+        let tcp = TcpListener::bind(addr).await?;
 
-        let (tx, rx) = mpsc::channel();
+        // let (tx, rx) = broadcast::channel(16);
 
-        info!("Starting server");
-
-        let handle = thread::spawn(move || {
-            for conn in stream.incoming() {
-                info!("Stream");
-
-                let stream = match conn {
-                    Ok(stream) => stream,
-                    Err(err) => {
-                        error!("Server {:#?}", err);
-                        return Err(err.into());
-                    }
-                };
-
-                let reader = BufReader::new(stream);
-
-                match serde_json::from_reader(reader) {
-                    Ok(msg) => {
-                        info!("Sending Message: {:?}", msg);
-                        tx.send(msg)?
-                    }
-                    Err(err) => {
-                        error!("Decode Error: {}", err);
-                        return Err(err)?;
-                    }
-                }
-            }
-            Ok(())
-        });
-
-        Ok(Self { handle, rx })
+        Ok(Server { root_tcp: tcp })
     }
 
-    pub fn main_loop(self, mut terminal: DefaultTerminal) -> eyre::Result<()> {
-        let mut messages = vec![];
+    pub async fn accept(&self) -> eyre::Result<TcpStream> {
+        Ok(self.root_tcp.accept().await?.0)
+    }
 
-        while !self.handle.is_finished() {
-            match self.rx.try_recv() {
-                Ok(msg) => {
-                    info!("Received message {:#?}", msg);
-                    messages.push(msg);
+    pub async fn handle_connection(&self, mut tcp: TcpStream) -> eyre::Result<()> {
+        let (reader, writer) = tcp.split();
+
+        let mut stream = FramedRead::new(reader, BytesCodec::new());
+
+        let mut sink = FramedWrite::new(writer, BytesCodec::new());
+
+        let user = {
+            let msg = stream.next().await.ok_or_eyre("Huh")??;
+            let msg = match str::from_utf8(&msg) {
+                Ok(msg) => msg,
+                Err(err) => {
+                    error!("Failed to parse client packet: {}", err);
+                    return Err(err.into());
                 }
-                Err(err) => match err {
-                    mpsc::TryRecvError::Empty => {}
-                    mpsc::TryRecvError::Disconnected => {
-                        error!("Thread disconnected!");
+            };
 
-                        return Err(err.into());
-                    }
-                },
-            }
+            ron::from_str::<RegisterRequest>(msg)?.user
+        };
 
-            if let Err(err) = terminal.draw(|frame| {
-                // render frame
+        sink.send(Bytes::from(ron::to_string(
+            &protocol::RegisterResponse::Ok,
+        )?))
+        .await?;
+        println!("{user} Joined");
 
-                let block = Block::new()
-                    .title("Server")
-                    .border_type(BorderType::Rounded)
-                    .border_style(Style::default().red())
-                    .borders(Borders::all());
+        while let Some(Ok(msg)) = stream.next().await {
+            let msg = match str::from_utf8(&msg) {
+                Ok(msg) => msg,
+                Err(err) => {
+                    error!("Failed to parse client packet: {}", err);
+                    continue;
+                }
+            };
 
-                let list = List::new(
-                    messages
-                        .iter()
-                        .map(|x| format!("{}: {}", x.user, x.contents)),
-                )
-                .repeat_highlight_symbol(true)
-                .highlight_symbol(">>")
-                .block(block);
+            let msg = match ron::from_str::<ServerRequest>(msg) {
+                Ok(msg) => msg,
+                Err(err) => {
+                    error!("Failed to parse client packet: {}", err);
+                    continue;
+                }
+            };
 
-                frame.render_widget(list, frame.area());
-            }) {
-                error!("Error rendering frame: {}", err);
-            }
-
-            if !event::poll(Duration::from_secs(0))? {
-                continue;
-            }
-
-            match event::read()? {
-                Event::Key(key) => match key {
-                    KeyEvent {
-                        kind: KeyEventKind::Press,
-                        code: KeyCode::Char('q'),
-                        ..
-                    } => return Ok(()),
-                    _ => {}
-                },
-                _ => {}
+            match msg {
+                ServerRequest::SendMessage { message } => {
+                    info!("{user}: {message}");
+                    println!("{user}: {message}");
+                }
             }
         }
 
         Ok(())
-    }
-
-    pub fn run(address: impl ToSocketAddrs) -> eyre::Result<()> {
-        let mut terminal = ratatui::init();
-        terminal.clear()?;
-        let result = Self::init(address)?.main_loop(terminal);
-        ratatui::restore();
-        result
-    }
-}
-
-#[cfg(test)]
-mod test {
-
-    #[test]
-    pub fn test1() {
-        let a = "huh";
-
-        let b = " bruh  ";
-
-        assert_eq!(a, b);
     }
 }

@@ -12,9 +12,8 @@ rand = "0.8.5"
 rayon = "1.10.0"
 ron = "0.8.1"
 thiserror = "2.0.4"
-tokio = "1.42.0"
+tokio = { version = "1.42.0", features = ["full"] }
 clap = { version = "4.5.22", features = ["derive"] }
-tower = "0.5.1"
 ratatui = "0.29.0"
 crossterm = "0.28.1"
 fern = "0.7.0"
@@ -22,3 +21,11 @@ log = "0.4.22"
 eyre = "0.6.12"
 color-eyre = "0.6.3"
 bytes = { version = "1.9.0", features = ["serde"] }
+tokio-util = { version = "0.7.13", features = ["codec"] }
+tui-textarea = { version = "0.7.0", features = ["search"] }
+futures = "0.3.31"
+rustyline = "15.0.0"
+
+[lints.clippy]
+all = "warn"
+pedantic = "warn"

@@ -1,0 +1,95 @@
+registering event source with poller: token=Token(93824998938240), interests=READABLE | WRITABLE
+VEOF: KeyEvent(Char('D'), Modifiers(CTRL))
+VINTR: KeyEvent(Char('C'), Modifiers(CTRL))
+VQUIT: KeyEvent(Char('\\'), Modifiers(CTRL))
+VSUSP: KeyEvent(Char('Z'), Modifiers(CTRL))
+old layout: Layout { prompt_size: Position { col: 0, row: 0 }, default_prompt: false, cursor: Position { col: 0, row: 0 }, end: Position { col: 0, row: 0 } }
+new layout: Layout { prompt_size: Position { col: 3, row: 0 }, default_prompt: true, cursor: Position { col: 3, row: 0 }, end: Position { col: 3, row: 0 } }
+c: 'm' => key: KeyEvent(Char('m'), Modifiers(0x0))
+Emacs command: SelfInsert(1, 'm')
+Changeset::insert(0, 'm')
+c: 'e' => key: KeyEvent(Char('e'), Modifiers(0x0))
+Emacs command: SelfInsert(1, 'e')
+Changeset::insert(1, 'e')
+c: ' ' => key: KeyEvent(Char(' '), Modifiers(0x0))
+Emacs command: SelfInsert(1, ' ')
+Changeset::insert(2, ' ')
+c: 'w' => key: KeyEvent(Char('w'), Modifiers(0x0))
+Emacs command: SelfInsert(1, 'w')
+Changeset::insert(3, 'w')
+c: 'h' => key: KeyEvent(Char('h'), Modifiers(0x0))
+Emacs command: SelfInsert(1, 'h')
+Changeset::insert(4, 'h')
+c: 'e' => key: KeyEvent(Char('e'), Modifiers(0x0))
+Emacs command: SelfInsert(1, 'e')
+Changeset::insert(5, 'e')
+c: 'n' => key: KeyEvent(Char('n'), Modifiers(0x0))
+Emacs command: SelfInsert(1, 'n')
+Changeset::insert(6, 'n')
+c: ' ' => key: KeyEvent(Char(' '), Modifiers(0x0))
+Emacs command: SelfInsert(1, ' ')
+Changeset::insert(7, ' ')
+c: 't' => key: KeyEvent(Char('t'), Modifiers(0x0))
+Emacs command: SelfInsert(1, 't')
+Changeset::insert(8, 't')
+c: 'h' => key: KeyEvent(Char('h'), Modifiers(0x0))
+Emacs command: SelfInsert(1, 'h')
+Changeset::insert(9, 'h')
+c: 'e' => key: KeyEvent(Char('e'), Modifiers(0x0))
+Emacs command: SelfInsert(1, 'e')
+Changeset::insert(10, 'e')
+c: '\r' => key: KeyEvent(Enter, Modifiers(0x0))
+Emacs command: AcceptOrInsertLine { accept_in_the_middle: true }
+VEOF: KeyEvent(Char('D'), Modifiers(CTRL))
+VINTR: KeyEvent(Char('C'), Modifiers(CTRL))
+VQUIT: KeyEvent(Char('\\'), Modifiers(CTRL))
+VSUSP: KeyEvent(Char('Z'), Modifiers(CTRL))
+old layout: Layout { prompt_size: Position { col: 0, row: 0 }, default_prompt: false, cursor: Position { col: 0, row: 0 }, end: Position { col: 0, row: 0 } }
+new layout: Layout { prompt_size: Position { col: 3, row: 0 }, default_prompt: true, cursor: Position { col: 3, row: 0 }, end: Position { col: 3, row: 0 } }
+c: 'h' => key: KeyEvent(Char('h'), Modifiers(0x0))
+Emacs command: SelfInsert(1, 'h')
+Changeset::insert(0, 'h')
+c: 'u' => key: KeyEvent(Char('u'), Modifiers(0x0))
+Emacs command: SelfInsert(1, 'u')
+Changeset::insert(1, 'u')
+c: 'h' => key: KeyEvent(Char('h'), Modifiers(0x0))
+Emacs command: SelfInsert(1, 'h')
+Changeset::insert(2, 'h')
+c: '\r' => key: KeyEvent(Enter, Modifiers(0x0))
+Emacs command: AcceptOrInsertLine { accept_in_the_middle: true }
+VEOF: KeyEvent(Char('D'), Modifiers(CTRL))
+VINTR: KeyEvent(Char('C'), Modifiers(CTRL))
+VQUIT: KeyEvent(Char('\\'), Modifiers(CTRL))
+VSUSP: KeyEvent(Char('Z'), Modifiers(CTRL))
+old layout: Layout { prompt_size: Position { col: 0, row: 0 }, default_prompt: false, cursor: Position { col: 0, row: 0 }, end: Position { col: 0, row: 0 } }
+new layout: Layout { prompt_size: Position { col: 3, row: 0 }, default_prompt: true, cursor: Position { col: 3, row: 0 }, end: Position { col: 3, row: 0 } }
+c: 'w' => key: KeyEvent(Char('w'), Modifiers(0x0))
+Emacs command: SelfInsert(1, 'w')
+Changeset::insert(0, 'w')
+c: 'h' => key: KeyEvent(Char('h'), Modifiers(0x0))
+Emacs command: SelfInsert(1, 'h')
+Changeset::insert(1, 'h')
+c: 'a' => key: KeyEvent(Char('a'), Modifiers(0x0))
+Emacs command: SelfInsert(1, 'a')
+Changeset::insert(2, 'a')
+c: 't' => key: KeyEvent(Char('t'), Modifiers(0x0))
+Emacs command: SelfInsert(1, 't')
+Changeset::insert(3, 't')
+c: '\r' => key: KeyEvent(Enter, Modifiers(0x0))
+Emacs command: AcceptOrInsertLine { accept_in_the_middle: true }
+VEOF: KeyEvent(Char('D'), Modifiers(CTRL))
+VINTR: KeyEvent(Char('C'), Modifiers(CTRL))
+VQUIT: KeyEvent(Char('\\'), Modifiers(CTRL))
+VSUSP: KeyEvent(Char('Z'), Modifiers(CTRL))
+old layout: Layout { prompt_size: Position { col: 0, row: 0 }, default_prompt: false, cursor: Position { col: 0, row: 0 }, end: Position { col: 0, row: 0 } }
+new layout: Layout { prompt_size: Position { col: 3, row: 0 }, default_prompt: true, cursor: Position { col: 3, row: 0 }, end: Position { col: 3, row: 0 } }
+c: '\u{3}' => key: KeyEvent(Char('C'), Modifiers(CTRL))
+terminal key binding: KeyEvent(Char('C'), Modifiers(CTRL)) => Interrupt
+Error: Interrupted
+deregistering event source from poller
+g: KeyEvent(Char('D'), Modifiers(CTRL)) => EndOfFile
+Emacs command: Kill(ForwardChar(1))
+c: '\u{3}' => key: KeyEvent(Char('C'), Modifiers(CTRL))
+terminal key binding: KeyEvent(Char('C'), Modifiers(CTRL)) => Interrupt
+Error: Interrupted
+deregistering event source from poller

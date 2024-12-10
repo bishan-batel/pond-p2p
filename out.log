@@ -1,0 +1,11 @@
+registering event source with poller: token=Token(93824998939904), interests=READABLE | WRITABLE
+registering event source with poller: token=Token(93824998940288), interests=READABLE | WRITABLE
+registering event source with poller: token=Token(93824998941312), interests=READABLE | WRITABLE
+bishan_: me when the
+bishan_: huh
+bishan_: what
+other: me when the
+other: huh
+other: what
+deregistering event source from poller
+deregistering event source from poller

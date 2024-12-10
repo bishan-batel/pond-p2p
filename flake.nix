@@ -15,7 +15,7 @@
         defaultPackage = naersk-lib.buildPackage ./.;
         devShell = with pkgs; mkShell {
           name = "pond-p2p";
-          buildInputs = [ cargo rustc rustfmt pre-commit rustPackages.clippy protobuf];
+          buildInputs = [ cargo rust-analyzer rustc rustfmt pre-commit rustPackages.clippy protobuf];
           RUST_SRC_PATH = rustPlatform.rustLibSrc;
         };
       }
